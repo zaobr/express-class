@@ -1,17 +1,69 @@
 const database = require("../../database")
 
 const getMovies = (req, res) => {
-  database.query("SELECT * FROM movies")
-  .then((result) => {
-    const [movies] = result;
+  let sql = "SELECT * FROM MOVIES";
 
-      if (movies.length > 0) {
-        res.json(movies);
-      } else {
-        res.status(404).send("Not Found");
-      }
-  })
-  .catch((err) => res.status(500).send(err))
+  if(req.query.color && (!req.query.max_duration)){
+    sql += " WHERE color = ?"
+    let sqlValues = [req.query.color];
+
+    database.query(sql, sqlValues)
+    .then((result) => {
+      const [movies] = result;
+
+        if (movies.length > 0) {  
+          res.json(movies);
+        } else {
+          res.status(404).send("Not Found");
+        }
+    })
+    .catch((err) => res.status(500).send(err))
+  }
+  if(req.query.max_duration && (!req.query.color)){
+    sql += " WHERE duration = ?"
+    let sqlValues = [req.query.max_duration];
+
+    database.query(sql, sqlValues)
+    .then((result) => {
+      const [movies] = result;
+
+        if (movies.length > 0) {  
+          res.json(movies);
+        } else {
+          res.status(404).send("Not Found");
+        }
+    })
+    .catch((err) => res.status(500).send(err))
+  }
+  if(req.query.color && req.query.max_duration){
+    sql += " WHERE color = ? and duration = ?"
+    let sqlValues = [req.query.color, req.query.max_duration];
+
+    database.query(sql, sqlValues)
+    .then((result) => {
+      const [movies] = result;
+
+        if (movies.length > 0) {  
+          res.json(movies);
+        } else {
+          res.status(404).send("Not Found");
+        }
+    })
+    .catch((err) => res.status(500).send(err))
+  }
+  else if(!req.query.color && !req.query.max_duration){
+    database.query(sql)
+      .then((result) => {
+        const [movies] = result;
+  
+          if (movies.length > 0) {  
+            res.json(movies);
+          } else {
+            res.status(404).send("Not Found");
+          }
+      })
+      .catch((err) => res.status(500).send(err))
+  }
 };
 
 const getMovieById = (req, res) => {
