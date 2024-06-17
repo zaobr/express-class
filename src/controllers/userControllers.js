@@ -82,7 +82,19 @@ const getUserById = (req, res) => {
   .catch((err) => res.status(500).send(err))
 };
 
+const postUser = (req, res) => {
+  const {firstname, lastname, email, city, language} = req.body
+  const sql = `INSERT INTO users (firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)`
+
+  database.query(sql, [firstname, lastname, email, city, language])
+  .then(([result]) => {
+    res.status(201).send({id: result.insertId})
+  })
+  .catch((err) => res.status(500).send(err))
+};
+
 module.exports = {
     getUsers,
     getUserById,
+    postUser
   };

@@ -82,7 +82,19 @@ const getMovieById = (req, res) => {
   .catch((err) => res.status(500).send(err))
 };
 
+const postMovie = (req, res) => {
+  const {title, director, year, color, duration} = req.body
+  const sql = `INSERT INTO movies (title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)`
+
+  database.query(sql, [title, director, year, color, duration])
+  .then(([result]) => {
+    res.status(201).send({id: result.insertId})
+  })
+  .catch((err) => res.status(500).send(err))
+};
+
 module.exports = {
   getMovies,
   getMovieById,
+  postMovie
 };
