@@ -36,7 +36,7 @@ const getMovies = (req, res) => {
     .catch((err) => res.status(500).send(err))
   }
   if(req.query.color && req.query.max_duration){
-    sql += " WHERE color = ? and duration = ?"
+    sql += " WHERE color = ? and duration = ?";
     let sqlValues = [req.query.color, req.query.max_duration];
 
     database.query(sql, sqlValues)
