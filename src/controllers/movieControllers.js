@@ -93,8 +93,21 @@ const postMovie = (req, res) => {
   .catch((err) => res.status(500).send(err))
 };
 
+const updateMovie = (req, res) => {
+  const {title, director, year, color, duration} = req.body
+  const sql = `UPDATE movies SET title=?, director=?, year=?, color=?, duration=? WHERE id = ?`
+
+  database.query(sql, [title, director, year, color, duration, req.params.id])
+  .then(([result]) => {
+    res.status(204).send(result)
+  })
+  .catch((err) => res.status(500).send(err))
+};
+
+
 module.exports = {
   getMovies,
   getMovieById,
-  postMovie
+  postMovie,
+  updateMovie
 };

@@ -83,7 +83,7 @@ const getUserById = (req, res) => {
 };
 
 const postUser = (req, res) => {
-  const {firstname, lastname, email, city, language} = req.body
+  const {firstname, lastname, email, city, language} = req.body;
   const sql = `INSERT INTO users (firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)`
 
   database.query(sql, [firstname, lastname, email, city, language])
@@ -93,8 +93,20 @@ const postUser = (req, res) => {
   .catch((err) => res.status(500).send(err))
 };
 
+const updateUser = (req, res) => {
+  const {firstname, lastname, email, city, language} = req.body;
+  const sql = `UPDATE users SET firstname=?, lastname=?, email=?, city=?, language=? WHERE id = ?`
+
+  database.query(sql, [firstname, lastname, email, city, language, req.params.id])
+  .then(([result]) => {
+    res.status(204).send(result)
+  })
+  .catch((err) => res.status(500).send(err))
+};
+
 module.exports = {
     getUsers,
     getUserById,
-    postUser
+    postUser,
+    updateUser
   };
