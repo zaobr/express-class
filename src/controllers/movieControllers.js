@@ -83,7 +83,7 @@ const getMovieById = (req, res) => {
 };
 
 const postMovie = (req, res) => {
-  const {title, director, year, color, duration} = req.body
+  const {title, director, year, color, duration} = req.body;
   const sql = `INSERT INTO movies (title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)`
 
   database.query(sql, [title, director, year, color, duration])
@@ -94,7 +94,7 @@ const postMovie = (req, res) => {
 };
 
 const updateMovie = (req, res) => {
-  const {title, director, year, color, duration} = req.body
+  const {title, director, year, color, duration} = req.body;
   const sql = `UPDATE movies SET title=?, director=?, year=?, color=?, duration=? WHERE id = ?`
 
   database.query(sql, [title, director, year, color, duration, req.params.id])
