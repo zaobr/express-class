@@ -96,10 +96,12 @@ const postUser = (req, res) => {
 const updateUser = (req, res) => {
   const {firstname, lastname, email, city, language} = req.body;
   const sql = `UPDATE users SET firstname=?, lastname=?, email=?, city=?, language=? WHERE id = ?`
+  const id = parseInt(req.params.id)
 
-  database.query(sql, [firstname, lastname, email, city, language, req.params.id])
+  database.query(sql, [firstname, lastname, email, city, language, id])
   .then(([result]) => {
-    res.status(204).send(result)
+    console.log(id)
+    id > 0 ? res.status(204).send(result) : res.status(404).send(result.info)
   })
   .catch((err) => res.status(500).send(err))
 };

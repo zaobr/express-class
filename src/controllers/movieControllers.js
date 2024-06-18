@@ -96,10 +96,12 @@ const postMovie = (req, res) => {
 const updateMovie = (req, res) => {
   const {title, director, year, color, duration} = req.body;
   const sql = `UPDATE movies SET title=?, director=?, year=?, color=?, duration=? WHERE id = ?`
+  const id = parseInt(req.params.id)
 
-  database.query(sql, [title, director, year, color, duration, req.params.id])
+  database.query(sql, [title, director, year, color, duration, id])
   .then(([result]) => {
-    res.status(204).send(result)
+    console.log(id)
+    id > 0 ? res.status(204).send(result) : res.status(404).send(result.info)
   })
   .catch((err) => res.status(500).send(err))
 };
