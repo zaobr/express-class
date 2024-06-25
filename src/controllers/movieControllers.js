@@ -100,7 +100,6 @@ const updateMovie = (req, res) => {
 
   database.query(sql, [title, director, year, color, duration, id])
   .then(([result]) => {
-    console.log(id)
     id > 0 ? res.status(204).send(result) : res.status(404).send(result.info)
   })
   .catch((err) => res.status(500).send(err))

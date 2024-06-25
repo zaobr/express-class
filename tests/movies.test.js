@@ -69,7 +69,7 @@ describe("POST /api/movies", () => {
       .post("/api/movies")
       .send(movieWithMissingProps);
 
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
 });
 
@@ -147,6 +147,6 @@ describe("PUT /api/movies/:id", () => {
 
     const response = await request(app).put("/api/movies/0").send(newMovie);
 
-    expect(response.status).toEqual(404);
+    expect(response.status).toEqual(422);
   });
 });
