@@ -14,10 +14,13 @@ app.get("/api/users", userConstrollers.getUsers);
 app.post("/api/users", validateUser, userConstrollers.postUser);
 app.get("/api/users/:id", userConstrollers.getUserById);
 app.put("/api/users/:id", validateUser, userConstrollers.updateUser);
+app.delete("/api/users/:id", userConstrollers.deleteUser)
+
 app.get("/api/movies", movieControllers.getMovies);
 app.post("/api/movies", validateMovie, movieControllers.postMovie);
 app.get("/api/movies/:id", movieControllers.getMovieById);
 app.put("/api/movies/:id", validateMovie, movieControllers.updateMovie);
+app.delete("/api/movies/:id", movieControllers.deleteMovie)
 
 
 

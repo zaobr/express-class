@@ -105,10 +105,21 @@ const updateMovie = (req, res) => {
   .catch((err) => res.status(500).send(err))
 };
 
+const deleteMovie = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  database.query("DELETE FROM movies WHERE id=?", id)
+  .then(([result]) => {
+    result.affectedRows === 0 ? res.sendStatus(404) : res.sendStatus(204)
+  })
+  .catch((err) => res.status(500).send(err))
+}
+
 
 module.exports = {
   getMovies,
   getMovieById,
   postMovie,
-  updateMovie
+  updateMovie, 
+  deleteMovie
 };
