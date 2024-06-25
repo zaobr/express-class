@@ -100,7 +100,6 @@ const updateUser = (req, res) => {
 
   database.query(sql, [firstname, lastname, email, city, language, id])
   .then(([result]) => {
-    console.log(id)
     id > 0 ? res.status(204).send(result) : res.status(404).send(result.info)
   })
   .catch((err) => res.status(500).send(err))
