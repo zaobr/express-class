@@ -82,6 +82,21 @@ const getUserById = (req, res) => {
   .catch((err) => res.status(500).send(err))
 };
 
+const getUserByEmail = (req, res, next) => {
+  database.query(`SELECT id, email, hashedPassword FROM users WHERE email= ?`, req.body.email)
+  .then((result) => {
+    const [user] = result;
+
+    if (user.length > 0) {
+      req.user = user[0];
+      next();
+    } else {
+      res.sendStatus(401);
+    }
+  })
+  .catch((err) => res.status(500).send(err))
+};
+
 const postUser = (req, res) => {
   const {firstname, lastname, email, city, language, hashedPassword} = req.body;
   const sql = `INSERT INTO users (firstname, lastname, email, city, language, hashedPassword) VALUES (?, ?, ?, ?, ?, ?)`
@@ -120,5 +135,6 @@ module.exports = {
     getUserById,
     postUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserByEmail
   };
