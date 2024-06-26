@@ -69,7 +69,7 @@ const getUsers = (req, res) => {
 const getUserById = (req, res) => {
   const id = parseInt(req.params.id);
 
-  database.query(`SELECT * FROM users WHERE id = ?`, id)
+  database.query(`SELECT firstname, lastname, email, city, language FROM users WHERE id = ?`, id)
   .then((result) => {
     const [user] = result;
 
@@ -83,10 +83,10 @@ const getUserById = (req, res) => {
 };
 
 const postUser = (req, res) => {
-  const {firstname, lastname, email, city, language} = req.body;
-  const sql = `INSERT INTO users (firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)`
+  const {firstname, lastname, email, city, language, hashedPassword} = req.body;
+  const sql = `INSERT INTO users (firstname, lastname, email, city, language, hashedPassword) VALUES (?, ?, ?, ?, ?, ?)`
 
-  database.query(sql, [firstname, lastname, email, city, language])
+  database.query(sql, [firstname, lastname, email, city, language, hashedPassword])
   .then(([result]) => {
     res.status(201).send({id: result.insertId})
   })
@@ -94,11 +94,11 @@ const postUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-  const {firstname, lastname, email, city, language} = req.body;
-  const sql = `UPDATE users SET firstname=?, lastname=?, email=?, city=?, language=? WHERE id = ?`
+  const {firstname, lastname, email, city, language, hashedPassword} = req.body;
+  const sql = `UPDATE users SET firstname=?, lastname=?, email=?, city=?, language=?, hashedPassword=? WHERE id = ?`
   const id = parseInt(req.params.id)
 
-  database.query(sql, [firstname, lastname, email, city, language, id])
+  database.query(sql, [firstname, lastname, email, city, language, hashedPassword, id])
   .then(([result]) => {
     id > 0 ? res.status(204).send(result) : res.status(404).send(result.info)
   })
